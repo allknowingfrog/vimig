@@ -1,11 +1,17 @@
 #!/bin/bash
+if [ -d "db/migrations" ]; then
+    dir="migrations"
+else
+    dir="migrate"
+fi
+
 if [[ $# -lt 1 ]]
 then
-    vim $(ls -t db/migrations/* | head -1)
+    vim $(ls -t db/$dir/* | head -1)
     exit
 fi
 
-files=$(find db/migrations -name "*$1*")
+files=$(find db/$dir -name "*$1*")
 select file in "cancel" $files
 do
     if [[ $file == "cancel" ]]
