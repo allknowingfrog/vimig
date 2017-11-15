@@ -1,0 +1,19 @@
+#!/bin/bash
+if [[ $# -lt 1 ]]
+then
+    vim $(ls -t db/migrations/* | head -1)
+    exit
+fi
+
+files=$(find db/migrations -name "*$1*")
+select file in "cancel" $files
+do
+    if [[ $file == "cancel" ]]
+    then
+        exit
+    fi
+
+    vim $file
+
+    exit
+done
