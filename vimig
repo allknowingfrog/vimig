@@ -5,21 +5,18 @@ else
     dir="migrate"
 fi
 
-if [[ $# -lt 1 ]]
-then
+if [[ $# -lt 1 ]]; then
     vim $(ls -t db/$dir/* | head -1)
     exit
 fi
 
 files=$(find db/$dir -name "*$1*")
-select file in "cancel" $files
-do
-    if [[ $file == "cancel" ]]
-    then
-        exit
-    fi
-
-    vim $file
-
+if [[ $(echo "$files" | wc -w) == 1 ]]; then
+    vim $files
     exit
-done
+else
+    select file in $files; do
+        vim $file
+        exit
+    done
+fi
