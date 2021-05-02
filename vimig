@@ -1,17 +1,22 @@
 #!/bin/bash
 if [ -d "db/migrations" ]; then
+    # Ruby on Rails
     dir="db/migrations"
 elif [ -d "priv/repo/migrations" ]; then
+    # Phoenix
     dir="priv/repo/migrations"
 else
+    # Phinx
     dir="db/migrate"
 fi
 
+# if no arguments, open most-recently edited file
 if [[ $# -lt 1 ]]; then
     vim $(ls -t $dir/* | head -1)
     exit
 fi
 
+# if one file matches, open immediately; if many, display options
 files=$(find $dir -name "*$1*")
 if [[ $(echo "$files" | wc -w) == 1 ]]; then
     vim $files
