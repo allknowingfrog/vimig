@@ -1,16 +1,18 @@
 #!/bin/bash
 if [ -d "db/migrations" ]; then
-    dir="migrations"
+    dir="db/migrations"
+elif [ -d "priv/repo/migrations" ]; then
+    dir="priv/repo/migrations"
 else
-    dir="migrate"
+    dir="db/migrate"
 fi
 
 if [[ $# -lt 1 ]]; then
-    vim $(ls -t db/$dir/* | head -1)
+    vim $(ls -t $dir/* | head -1)
     exit
 fi
 
-files=$(find db/$dir -name "*$1*")
+files=$(find $dir -name "*$1*")
 if [[ $(echo "$files" | wc -w) == 1 ]]; then
     vim $files
     exit
